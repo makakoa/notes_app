@@ -2,9 +2,10 @@
   "name": "notes_app",
   "version": "1.0.0",
   "description": "note taking web app",
-  "main": "index.js",
+  "main": "server.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "node_modules/grunt-cli/bin/grunt test",
+    "start": "node server.js"
   },
   "repository": {
     "type": "git",
