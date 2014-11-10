@@ -27,9 +27,9 @@ describe('basic notes crud', function(){
     chai.request('http://localhost:3000')
       .get('/api/notes')
       .end(function(err, res) {
-	expect(err).to.eql(null);
-	expect(Array.isArray(res.body)).to.be.true;
-	done();
+	    expect(err).to.eql(null);
+        expect(Array.isArray(res.body)).to.be.true;
+	    done();
       });
   });
 
