@@ -5,7 +5,9 @@ var bp = require('body-parser');
 var app = express();
 app.use(bp.json());
 
-mongoose.connect(process.env.MONGOHQ_URL || 'mongodb://localhost/notes_development');
+mongoose.connect(process.env.MONGOLAB_URI || 
+                 process.env.MONGOHQ_URL || 
+                 'mongodb://localhost/notes_development');
 
 require('./routes/notes_routes')(app);
 
