@@ -46,7 +46,7 @@ describe('basic notes crud', function(){
   it('should be able to update a note', function(done) {
     chai.request('http://localhost:3000')
       .put('/api/notes/' + id)
-      .send({title: 'new title', noteBody: 'new note body'})
+      .send({title: 'new title',  noteBody: 'new note body'})
       .end(function(err, res) {
         expect(err).to.eql(null);
         expect(res.body.noteBody).to.eql('new note body');
