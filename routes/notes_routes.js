@@ -20,7 +20,7 @@ module.exports = function(app) {
 
   app.post('/api/notes', function(req, res) {
     var note = new Note(req.body);
-    Note.save(function(err, data) {
+    note.save(function(err, data) {
       if (err) return res.status(500).send('error');
       res.json(data);
     });
