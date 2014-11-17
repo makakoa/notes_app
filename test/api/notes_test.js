@@ -8,12 +8,32 @@ require('../../server');
 
 var expect = chai.expect;
 
-describe('basic notes crud', function(){
+describe('basic notes crud', function() {
   var id;
+  var jwt;
+  it('should be able to create a user', function(done) {
+    chai.request('http://localhost:3000')
+      .post('/api/users')
+      .send({
+        email: 'yolo@example.com',
+        password: 'swag3000'
+      })
+      .end(function(err, res) {
+        expect(err).to.eql(null);
+        expect(res.body).to.have.property('jwt');
+        jwt = res.body.jwt;
+        done();
+      });
+  });
+
   it('should be able to create a note', function(done) {
     chai.request('http://localhost:3000')
       .post('/api/notes')
-      .send({title: 'sample', noteBody: 'hello world'})
+      .set({'jwt': jwt})
+      .send({
+        title: 'sample',
+        noteBody: 'hello world'
+      })
       .end(function(err, res) {
         expect(err).to.eql(null);
         expect(res.body.noteBody).to.eql('hello world');
@@ -26,27 +46,32 @@ describe('basic notes crud', function(){
   it('should be able to get an index', function(done) {
     chai.request('http://localhost:3000')
       .get('/api/notes')
+      .set({'jwt': jwt})
       .end(function(err, res) {
-	    expect(err).to.eql(null);
+        expect(err).to.eql(null);
         expect(Array.isArray(res.body)).to.be.true;
-	    done();
+        done();
       });
   });
 
   it('should be able to get a single note', function(done) {
     chai.request('http://localhost:3000')
       .get('/api/notes/' + id)
+      .set({'jwt': jwt})
       .end(function(err, res) {
-	    expect(err).to.eql(null);
-  	    expect(res.body.noteBody).to.eql('hello world');
-	    done();
+        expect(err).to.eql(null);
+        expect(res.body.noteBody).to.eql('hello world');
+        done();
       });
   });
 
   it('should be able to update a note', function(done) {
     chai.request('http://localhost:3000')
       .put('/api/notes/' + id)
-      .send({title: 'new title', noteBody: 'new note body'})
+      .send({
+        title: 'new title',
+        noteBody: 'new note body'
+      })
       .end(function(err, res) {
         expect(err).to.eql(null);
         expect(res.body.noteBody).to.eql('new note body');
@@ -58,10 +83,9 @@ describe('basic notes crud', function(){
     chai.request('http://localhost:3000')
       .delete('/api/notes/' + id)
       .end(function(err, res) {
-	expect(err).to.eql(null);
-	expect(res.body.msg).to.eql('success!');
-	done();
+        expect(err).to.eql(null);
+        expect(res.body.msg).to.eql('success!');
+        done();
       });
   });
 });
-

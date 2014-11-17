@@ -9,21 +9,23 @@ var userSchema = mongoose.Schema({
   basic: {
     email: 'String',
     password: 'String' // not storing password but hash
-  }
+  },
+  isAdmin: false
 });
 
 userSchema.methods.generateHash = function(password) {
   return bcrypt.hashSync(password, bcrypt.genSaltSync(8), null);
-}; //increased genSalt takse longer but works better
+}; //increased genSalt takes longer but works better
 
 userSchema.methods.validPassword = function(password) {
   return bcrypt.compareSync(password, this.basic.password);
 };
 
 userSchema.methods.generateToken = function(secret) {
-  var self = this;
+  var _this = this;
   var token = jwt.encode({
-    iss: self._id
+    iss: _this._id,
+    timeStamp: Date.now()
   }, secret);
   return token;
 };
