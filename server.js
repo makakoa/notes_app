@@ -7,7 +7,6 @@ var app = express();
 
 app.use(bp.json());
 app.set('jwtSecret', process.env.JWT_SECRET || 'changethisordie');
-app.set('secret', process.env.SECRET || 'changethistoo');
 
 mongoose.connect(process.env.MONGOLAB_URI ||
                  process.env.MONGOHQ_URL ||
@@ -16,9 +15,10 @@ mongoose.connect(process.env.MONGOLAB_URI ||
 app.use(passport.initialize());
 
 require('./lib/passport')(passport);
+var jwtauth = require('./lib/jwt_auth')(app.get('jwtSecret'));
 
-require('./routes/user_routes')(app, passport);
-require('./routes/notes_routes')(app);
+require('./routes/user_routes')(app, passport, jwtauth);
+require('./routes/notes_routes')(app, jwtauth);
 
 app.set('port', process.env.PORT || 3000);
 app.listen(app.get('port'), function() {
