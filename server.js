@@ -5,6 +5,8 @@ var bp = require('body-parser');
 var passport = require('passport');
 var app = express();
 
+app.use(express.static(__dirname + '/build'));
+
 app.use(bp.json());
 app.set('jwtSecret', process.env.JWT_SECRET || 'changethisordie');
 
