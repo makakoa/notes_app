@@ -1,3 +1,7 @@
 db/
 node_modules
 npm-debug.log
+build
+test/app/test_bundle.js
+.sass-cache
+bower_components

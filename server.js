@@ -5,19 +5,21 @@ var bp = require('body-parser');
 var passport = require('passport');
 var app = express();
 
+app.use(express.static(__dirname + '/build'));
+
 app.use(bp.json());
-app.set('jwtSecret', process.env.JWT_SECRET || 'changethisordie');
-app.set('secret', process.env.SECRET || 'changethistoo');
+//app.set('jwtSecret', process.env.JWT_SECRET || 'changethisordie');
+//app.set('secret', process.env.SECRET || 'changethistoo');
 
 mongoose.connect(process.env.MONGOLAB_URI ||
                  process.env.MONGOHQ_URL ||
                  'mongodb://localhost/notes_development');
 
-app.use(passport.initialize());
+//app.use(passport.initialize());
 
-require('./lib/passport')(passport);
+//require('./lib/passport')(passport);
 
-require('./routes/user_routes')(app, passport);
+//require('./routes/user_routes')(app, passport);
 require('./routes/notes_routes')(app);
 
 app.set('port', process.env.PORT || 3000);
