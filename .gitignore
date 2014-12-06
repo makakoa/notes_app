@@ -5,3 +5,5 @@ build
 test/app/test_bundle.js
 .sass-cache
 bower_components
+test/angular_testbundle.js
+**/*.sw?
